@@ -1185,15 +1185,7 @@
         </footer><!--end footer-->
         <!-- Footer End -->
 
-        <!-- Start Cookie Popup -->
-        {{-- <div class="fixed z-50 max-w-lg px-6 py-5 mx-auto bg-white rounded-md shadow cookie-popup bottom-3 end-3 start-3 sm:start-0 dark:bg-slate-900 dark:shadow-gray-800">
-            <p class="text-slate-400">This website uses cookies to provide you with a great user experience. By using it, you accept our <a href="https://shreethemes.in" target="_blank" class="font-semibold text-emerald-600 dark:text-emerald-500">use of cookies</a></p>
-            <div class="cookie-popup-actions text-end">
-                <button class="absolute p-0 font-semibold border-none cursor-pointer bg-none top-2 end-2"><i class="text-2xl uil uil-times text-dark dark:text-slate-200"></i></button>
-            </div>
-        </div> --}}
-        <!--Note: Cookies Js including in plugins.init.js (path like; https://shreethemes.in/techwind/landing/assets/js/plugins.init.js) and Cookies css including in _helper.scss (path like; scss/_helper.scss)-->
-        <!-- End Cookie Popup -->
+
 
         <!-- Back to top -->
         <a href="#" onclick="topFunction()" id="back-to-top" class="fixed z-10 hidden text-lg leading-9 text-center text-white bg-indigo-600 rounded-full back-to-top bottom-5 end-5 h-9 w-9"><i class="uil uil-arrow-up"></i></a>
@@ -1217,7 +1209,7 @@
         @vite(['resources/js/libs/tobii/js/tobii.min.js', 'resources/js/libs/tobii/js/tobii.min.js'])
         @vite(['resources/js/libs/tiny-slider/min/tiny-slider.js', 'resources/js/libs/tiny-slider/min/tiny-slider.js'])
         @vite(['resources/js/libs/feather-icons/feather.min.js', 'resources/js/libs/feather-icons/feather.min.js'])
-        @vite(['resources/js/plugins.init.js', 'resources/js/plugins.init.js'])
+        @vite(['resources/js/plugins.init.js'])
         @vite(['resources/js/front-app.js', 'resources/js/front-app.js'])
         <!-- JAVASCRIPTS -->
     </body>

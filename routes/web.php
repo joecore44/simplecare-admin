@@ -34,7 +34,7 @@ Route::get('/onboarding/3', StepThree::class)->name('step-three');
 Route::get('/onboarding/4', StepFour::class)->name('step-four');
 
 
-Route::redirect('/login', 'login');
+//Route::redirect('/login', 'login');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 

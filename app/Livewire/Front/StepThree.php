@@ -5,7 +5,7 @@ namespace App\Livewire\Front;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('layouts.authentication', ['title' => 'Step 3'])]
+#[Layout('layouts.onboarding', ['title' => 'Step 3'])]
 class StepThree extends Component
 {
     public function render()
