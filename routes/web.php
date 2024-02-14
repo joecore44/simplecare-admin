@@ -3,18 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\MemberController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\CampaignController;
 use App\Livewire\Front\HomePage;
 use App\Livewire\Front\StepOne;
 use App\Livewire\Front\StepTwo;
 use App\Livewire\Front\StepThree;
 use App\Livewire\Front\StepFour;
+use App\Livewire\Dashboard\Marketing;
+use App\Livewire\Client\ClientDashboard;
+use App\Http\Controllers\DudaLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +31,7 @@ Route::get('/onboarding/4', StepFour::class)->name('step-four');
 
 
 //Route::redirect('/login', 'login');
+Route::get('/duda-login', [DudaLoginController::class, 'login'])->name('duda-login');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -42,6 +39,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/marketing', Marketing::class)->name('marketing');
+    Route::get('/client/{clientId}/dashboard/', ClientDashboard::class)->name('client-dashboard');
+
 
     Route::fallback(function() {
         return view('pages/utility/404');

@@ -43,12 +43,12 @@
         <nav id="topnav" class="defaultscroll is-sticky">
             <div class="container relative">
                 <!-- Logo container-->
-                <a class="logo" href="index.html">
+                <a class="logo" href="/">
                     <span class="inline-block dark:hidden">
-                        <img src="https://shreethemes.in/techwind/landing/assets/images/logo-dark.png" class="l-dark" height="24" alt="">
-                        <img src="https://shreethemes.in/techwind/landing/assets/images/logo-light.png" class="l-light" height="24" alt="">
+                        <img src="{{ asset('images/logo-dark.png') }}" class="l-dark" height="24" alt="">
+                        <img src="{{ asset('images/logo-light.png') }}" class="l-light" height="24" alt="">
                     </span>
-                    <img src="https://shreethemes.in/techwind/landing/assets/images/logo-light.png" height="24" class="hidden dark:inline-block" alt="">
+                    <img src="{{ asset('images/logo-light.png') }}" height="24" class="hidden dark:inline-block" alt="">
                 </a>
 
                 <!-- End Logo container-->
@@ -1102,7 +1102,7 @@
                             <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
                                 <div class="lg:col-span-4 md:col-span-12">
                                     <a href="#" class="text-[22px] focus:outline-none">
-                                        <img src="https://shreethemes.in/techwind/landing/assets/images/logo-light.png" alt="">
+                                        <img src="{{ asset('/images/logo-light.png')}}" alt="SipleCare.cloud logo">
                                     </a>
                                     <p class="mt-6 text-gray-300">Start working with Tailwind CSS that can provide everything you need to generate awareness, drive traffic, connect.</p>
                                     <ul class="mt-6 list-none">
@@ -1169,7 +1169,7 @@
                 <div class="container relative text-center">
                     <div class="grid items-center md:grid-cols-2">
                         <div class="text-center md:text-start">
-                            <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> Techwind. Design with <i class="text-red-600 mdi mdi-heart"></i> by <a href="https://shreethemes.in/" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                            <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> SimpleCare.cloud <br />  Developed with <i class="text-red-600 mdi mdi-heart"></i> @ <a href="https://www.bytetech.health" target="_blank" class="text-reset">ByteTech Health | ByteTech Labs LLC.</a>.</p>
                         </div>
 
                         <ul class="mt-6 text-center list-none md:text-end md:mt-0">

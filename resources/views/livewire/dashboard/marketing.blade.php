@@ -1,4 +1,4 @@
-<x-app-layout>
+<div>
     <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
 
         <!-- Welcome banner -->
@@ -6,6 +6,7 @@
 
         <!-- Dashboard actions -->
         <div class="mb-8 sm:flex sm:justify-between sm:items-center">
+
 
             <!-- Left: Avatars -->
             <livewire:dashboard.avatar-cluster />
@@ -42,11 +43,11 @@
             <!-- Current support tickets -->
             <livewire:dashboard.current-support-tickets :dataFeed="$dataFeed" />
 
-            <!-- Card (Customers)  -->
-            {{-- <livewire:dashboard.leads-table-card :dataFeed="$dataFeed" /> --}}
+            <!-- Active Website Card -->
+            <livewire:dashboard.active-website-card :site="$site"/>
 
-            <!-- Projected sales card -->
-            <livewire:dashboard.projected-sales-card />
+            <!-- Card (Leads)  -->
+            <livewire:dashboard.leads-table-card :leads="$leads" />
 
             <!-- Line chart (Real Time Value) -->
             {{-- <x-dashboard.dashboard-card-05 /> --}}
@@ -78,4 +79,4 @@
         </div>
 
     </div>
-</x-app-layout>
+</div>

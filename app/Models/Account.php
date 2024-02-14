@@ -57,4 +57,18 @@ class Account extends Model
         return $this->hasMany(User::class);
     }
 
+    public function clients(){
+        return $this->hasMany(Client::class);
+    }
+
+    public function chartNotes()
+    {
+        return $this->hasManyThrough(ChartNote::class, Client::class);
+    }
+
+    public function sites()
+    {
+        return $this->hasMany(Site::class);
+    }
+
 }
