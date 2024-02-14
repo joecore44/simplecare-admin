@@ -10,6 +10,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Livewire\Attributes\Computed;
+
 
 class User extends Authenticatable
 {
@@ -65,18 +67,19 @@ class User extends Authenticatable
         return $this->belongsTo(Account::class);
     }
 
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
-
     public function chartNotes()
     {
         return $this->hasMany(ChartNote::class);
     }
 
-    // public function clients(): HasManyThrough
-    // {
-    //     return $this->hasManyThrough(Client::class, Account::class);
-    // }
+    #[Computed]
+    public function chartNotesByClient($clientId)
+    {
+        return $this->chartNotes()->where('client_id', $clientId);
+    }
+
+    public function clients(): HasManyThrough
+    {
+        return $this->hasManyThrough(Client::class, Account::class);
+    }
 }

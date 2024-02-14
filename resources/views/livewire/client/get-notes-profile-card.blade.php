@@ -43,8 +43,8 @@
                 </li>
                 @endforeach
         </ul>
-        <div class="">
-
+        <div class="mt-2">
+            {{ $chartNotes->links() }}
         </div>
                 @else
             <p>No Chart Notes found.</p>

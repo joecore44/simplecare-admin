@@ -2,24 +2,24 @@
 
 namespace App\Livewire\Client;
 
-use Illuminate\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ChartNote;
+use App\Models\Client;
 
 class GetNotesProfileCard extends Component
 {
     use WithPagination;
+
     public $clientId;
-    public $chartNotes;
 
     public function render()
     {
-        //$this->chartNotes = ChartNote::where('client_id', '9b4c266c-7d5c-4ef4-a061-bca527c84552');
-        $this->chartNotes = ChartNote::all();
-        //dd($this->chartNotes);
+        $chartNotes = Auth::user()->chartNotesByClient($this->clientId)->paginate(2);
+
         return view('livewire.client.get-notes-profile-card', [
-            'chartNotes' => $this->chartNotes,
+            'chartNotes' => $chartNotes
         ]);
     }
 }

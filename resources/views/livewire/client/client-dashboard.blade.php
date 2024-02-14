@@ -95,12 +95,15 @@
                             <div class="cxebx">
 
                                 <!-- Post Block -->
+                                <form wire:submit.prevent="addNote">
                                 <div class="bg-white border rounded shadow-md dark:bg-slate-800 border-slate-200 dark:border-slate-700 ctk06">
                                     <div class="flex items-center cb7d8 cg5st">
                                         <img class="rounded-full c7n6y" src="https://preview.cruip.com/mosaic/images/user-40-02.jpg" width="40" height="40" alt="User 02">
                                         <div class="ckut6">
                                             <label for="status-input" class="cbl3h">Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc.</label>
-                                            <input id="status-input" class="cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8" type="text" placeholder="Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc.">
+                                            <textarea id="status-input" @class(['chryn cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8' => $isSuccess, 'cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8' => !$isSuccess]) wire:model="noteContent" placeholder="Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc."></textarea>
+                                            <input type="date" wire:model="date" value="{{ old('date', now()->format('Y-m-d')) }}">
+                                            <input type="time" wire:model="time" value="{{ old('time', now()->format('H:i')) }}">
                                         </div>
                                     </div>
                                     <div class="flex items-center cmgwo">

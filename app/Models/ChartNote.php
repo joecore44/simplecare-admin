@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class ChartNote extends Model
@@ -14,9 +13,15 @@ class ChartNote extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'client_id',
         'note',
+        'user_id',
         'date',
         'time'
+    ];
+    protected $casts = [
+        'date' => 'date:d/m/Y',
+        'time' => 'datetime:H:i',
     ];
 
     public function user()
@@ -29,23 +34,4 @@ class ChartNote extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function getDateAttribute($value)
-    {
-        return (new Carbon($value))->format('d/m/Y');
-    }
-
-    public function getTimeAttribute($value)
-    {
-        return (new Carbon($value))->format('H:i');
-    }
-
-    public function setDateAttribute($value)
-    {
-        $this->attributes['date'] = (new Carbon($value))->format('Y-m-d');
-    }
-
-    public function setTimeAttribute($value)
-    {
-        $this->attributes['time'] = (new Carbon($value))->format('H:i:s');
-    }
 }

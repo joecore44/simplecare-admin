@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chart_notes', function (Blueprint $table) {
             $table->uuid('id');
             $table->uuid('client_id');
-            $table->uuid('account_id');
+            $table->unsignedBigInteger('user_id');
             $table->text('note');
             $table->date('date');
             $table->time('time');
