@@ -11,6 +11,8 @@ use App\Livewire\Front\StepFour;
 use App\Livewire\Dashboard\Marketing;
 use App\Livewire\Client\ClientDashboard;
 use App\Http\Controllers\DudaLoginController;
+use App\Livewire\Client\ClientIndex;
+use App\Livewire\Client\ClientCreate;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/marketing', Marketing::class)->name('marketing');
+    // Client routes
+    Route::get('/clients', ClientIndex::class)->name('clients');
+    Route::get('clients/new', ClientCreate::class)->name('create-client');
     Route::get('/client/{clientId}/dashboard/', ClientDashboard::class)->name('client-dashboard');
 
 

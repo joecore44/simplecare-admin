@@ -101,31 +101,28 @@
                                         <img class="rounded-full c7n6y" src="https://preview.cruip.com/mosaic/images/user-40-02.jpg" width="40" height="40" alt="User 02">
                                         <div class="ckut6">
                                             <label for="status-input" class="cbl3h">Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc.</label>
-                                            <textarea id="status-input" @class(['chryn cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8' => $isSuccess, 'cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8' => !$isSuccess]) wire:model="noteContent" placeholder="Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc."></textarea>
-                                            <input type="date" wire:model="date" value="{{ old('date', now()->format('Y-m-d')) }}">
-                                            <input type="time" wire:model="time" value="{{ old('time', now()->format('H:i')) }}">
+                                            <x-input class="cmtl7 c82du c7jg3 cyj9a c3jt4 crafj c6vqo c03gb c3ff8" wire:model="noteContent" placeholder="Add a note to Jordann's chart: Including notes from a call or copy and paste info from a doc."></x-input>
+
                                         </div>
                                     </div>
-                                    <div class="flex items-center cmgwo">
-                                        <div class="flex c7rrr ckut6">
-                                            <button class="inline-flex items-center text-sm cn6r0 cwxny ch1ih c6w4h cw92y">
-                                                <svg class="mr-2 c7oim cgmrc cm474" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M0 0h2v16H0V0Zm14 0h2v16h-2V0Zm-3 7H5c-.6 0-1-.4-1-1V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v5c0 .6-.4 1-1 1ZM6 5h4V2H6v3Zm5 11H5c-.6 0-1-.4-1-1v-5c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v5c0 .6-.4 1-1 1Zm-5-2h4v-3H6v3Z"></path>
+                                    <div class="flex items-left cmgwo">
+                                        <div class="c4ijw">
+                                            <x-input type="date" class="datepicker dark:bg-slate-800 text-slate-500 cn6r0 cxc4n ch1ih caowp cw92y c03gb ctmd2 flatpickr-input active" label="Date"></x-input>
+                                                <div class="flex items-center pointer-events-none cozyg csmh2 c1u8w">
+                                                    <svg class="ml-3 text-slate-500 dark:text-slate-400 c3wll cgmrc cm474" viewBox="0 0 16 16">
+                                                        <path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z"></path>
+                                                    </svg>
+                                                </div>
+                                        </div>
+                                        <div class="c4ijw">
+                                            <x-input type="time" class="timepicker dark:bg-slate-800 text-slate-500 cn6r0 cxc4n ch1ih caowp cw92y c03gb ctmd2 flatpickr-input active" wire:model="time" />
+                                            <div class="flex items-center pointer-events-none cozyg csmh2 c1u8w">
+                                                <svg width="16" height="16" class="ml-3 text-slate-500 dark:text-slate-400 c3wll cgmrc cm474" viewBox="0 0 16 16">
+                                                    <path d="M15 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13H9v6l5.25 3.15.75-1.23-4.5-2.67z"></path>
                                                 </svg>
-                                                <span>Media</span>
-                                            </button>
-                                            <button class="inline-flex items-center text-sm cn6r0 cwxny ch1ih c6w4h cw92y">
-                                                <svg class="mr-2 c7oim cgmrc cm474" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.974 14c-.3 0-.7-.2-.9-.5l-2.2-3.7-2.1 2.8c-.3.4-1 .5-1.4.2-.4-.3-.5-1-.2-1.4l3-4c.2-.3.5-.4.9-.4.3 0 .6.2.8.5l2 3.3 3.3-8.1c0-.4.4-.7.8-.7s.8.2.9.6l4 8c.2.5 0 1.1-.4 1.3-.5.2-1.1 0-1.3-.4l-3-6-3.2 7.9c-.2.4-.6.6-1 .6Z"></path>
-                                                </svg>
-                                                <span>GIF</span>
-                                            </button>
-                                            <button class="inline-flex items-center text-sm cn6r0 cwxny ch1ih c6w4h cw92y">
-                                                <svg class="mr-2 c7oim cgmrc cm474" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M9.793 10.002a.5.5 0 0 1 .353.853l-1.792 1.793a.5.5 0 0 1-.708 0l-1.792-1.793a.5.5 0 0 1 .353-.853h3.586Zm5.014-4.63c1.178 2.497 1.833 5.647.258 7.928-1.238 1.793-3.615 2.702-7.065 2.702S2.173 15.092.935 13.3c-1.575-2.28-.92-5.431.258-7.927A2.962 2.962 0 0 1 0 3.002a3 3 0 0 1 3-3c.787 0 1.496.309 2.029.806a5.866 5.866 0 0 1 5.942 0A2.96 2.96 0 0 1 13 .002a3 3 0 0 1 3 3c0 .974-.472 1.827-1.193 2.37Zm-1.387 6.79c1.05-1.522.417-3.835-.055-5.078C12.915 5.89 11.192 2.002 8 2.002s-4.914 3.89-5.365 5.082c-.472 1.243-1.106 3.556-.055 5.079.843 1.22 2.666 1.839 5.42 1.839s4.577-.62 5.42-1.84ZM6.67 6.62c.113.443.102.68-.433 1.442-.535.761-1.06 1.297-1.658 1.297-.597 0-1.08-.772-1.07-1.483.01-.71.916-2.306 1.997-2.306.784 0 1.05.607 1.163 1.05Zm3.824-1.05c1.08 0 1.987 1.596 1.997 2.306.01.71-.473 1.483-1.07 1.483-.598 0-1.123-.536-1.658-1.297-.535-.762-.546-1-.432-1.442.113-.443.38-1.05 1.163-1.05Z"></path>
-                                                </svg>
-                                                <span>Emoji</span>
-                                            </button>
+
+
+                                            </div>
                                         </div>
                                         <div>
                                             <button type="submit" class="cfeqx c626f cf1ce ceqwg cjusy">Add Note -&gt;</button>

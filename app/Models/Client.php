@@ -11,6 +11,19 @@ class Client extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'address',
+        'city',
+        'state',
+        'zip',
+        'type',
+        'account_id',
+    ];
+
+
     public function account()
     {
         return $this->belongsTo(Account::class);
@@ -23,11 +36,11 @@ class Client extends Model
 
     public function contactOne()
     {
-        return $this->hasOne(User::class, 'contact_one_id');
+        return $this->belongsTo(User::class, 'contact_one_id');
     }
     public function contactTwo()
     {
-        return $this->hasOne(User::class, 'contact_two_id');
+        return $this->belongsTo(User::class, 'contact_two_id');
     }
 
 }
