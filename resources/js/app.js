@@ -119,3 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
   dashboardCard09();
   dashboardCard11();
 });
+
+window.addEventListener('alert', (event) => {
+  let data = event.detail[0];
+  let customBackground = null;
+  let customColor = null;
+  // https://sweetalert2.github.io/#examples
+  // icons = success, error, warning, info, question
+  if (localStorage.getItem('dark-mode') === 'true'){
+    customBackground = '#1f2937';
+    customColor = '#f9fafb';
+  }
+
+  Swal.fire({
+    position: data.position,
+    title: data.title,
+    text: data.message,
+    color: customColor,
+    background: customBackground,
+    icon: data.type,
+    showConfirmButton: data.confirmationButton,
+    timer: data.timer
+  })
+
+});

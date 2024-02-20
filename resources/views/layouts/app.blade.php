@@ -14,6 +14,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
 
         <!-- Styles -->
         @livewireStyles
@@ -53,6 +54,8 @@
 
                 <x-app.header />
 
+
+
                 <main class="grow">
                     {{ $slot }}
                 </main>
@@ -62,5 +65,6 @@
         </div>
 
         @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     </body>
 </html>

@@ -3,6 +3,7 @@
     x-data="{ open: false }"
     @open-slide-over.window="open = true"
     @keydown.escape.window="open = false"
+    @close-slideover.window="open = false"
 >
     @if(count($clients) > 0)
     <div class="cewy4 clpyc cj3hv cofxq c3ff8 c9r0z c0ycj">
@@ -13,11 +14,6 @@
             <!-- Left: Title -->
             <div class="clxmc c958j">
                 <h1 class="font-bold text-slate-800 dark:text-slate-100 cy709 cjefr">{{ $accountName }} ✨</h1>
-                @if(session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
             </div>
 
             <!-- Right: Actions -->
@@ -26,7 +22,7 @@
                 <!-- Search form -->
                 <form class="c4ijw">
                     <label for="action-search" class="cbl3h">Search</label>
-                    <input id="action-search" class="bg-white dark:bg-slate-800 c03gb ctmd2" type="search" placeholder="Search…">
+                    <x-input class="bg-white dark:bg-slate-800 c03gb ctmd2" type="search" placeholder="Search…" wire:model="search"></x-input>
                     <button class="cozyg csmh2 c1u8w c2djl" type="submit" aria-label="Search">
                         <svg class="ml-3 mr-2 c1bvt cc44c ciz4v czgoy c3wll c7n6y cgmrc cm474" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"></path>
@@ -52,7 +48,7 @@
 
             <!-- Users cards -->
             @foreach($clients as $client)
-            <div class="bg-white border rounded-sm dark:bg-slate-800 border-slate-200 dark:border-slate-700 cugyv c04fd c4osb cetne">
+            <div class="bg-white border rounded-sm dark:bg-slate-800 border-slate-200 dark:border-slate-700 cugyv c04fd c4osb cetne" wire:poll>
                 <div class="flex chmlm crszu">
                     <!-- Card top -->
                     <div class="ckut6 ctk06">
@@ -60,28 +56,30 @@
                             <!-- Image + name -->
                             <header>
                                 <div class="flex c7j98">
-                                    <a class="inline-flex cxbmt c4ijw czbt8" href="#0">
+                                    <a class="inline-flex cxbmt c4ijw czbt8">
                                         <div class="bg-white rounded-full ce4zx csmh2 cke32 cse7i cvqv9 cxrj9" aria-hidden="true">
                                             <svg class="cz5ai c3wll chmgx c6dxj" viewBox="0 0 32 32">
                                                 <path d="M21 14.077a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 010 1.5 1.5 1.5 0 00-1.5 1.5.75.75 0 01-.75.75zM14 24.077a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z"></path>
                                             </svg>
                                         </div>
-                                        <img class="rounded-full" src="https://preview.cruip.com/mosaic/images/user-64-01.jpg" width="64" height="64" alt="User 01">
+                                        {{-- <img class="rounded-full" src="https://preview.cruip.com/mosaic/images/user-64-01.jpg" width="64" height="64" alt="User 01"> --}}
+                                        <img class="rounded-full" src="{{ $client->ContactOne->profile_photo_url }}" width="64" height="64" alt="{{ $client->ContactOne->name }}" />
                                     </a>
                                     <div class="c5xk8 c10av">
-                                        <a class="inline-flex text-slate-800 dark:text-slate-100 c8lgs ciqv7" href="#0">
+                                        <a class="inline-flex text-slate-800 dark:text-slate-100 c8lgs ciqv7" href="{{ route('client-dashboard', ['clientId' => $client->id]) }}" wire:navigate >
                                             <h2 class="justify-center cqosy ctbo0 cvvcr">{{ $client['first_name'] }} {{ $client['last_name'] }}</h2>
                                         </a>
                                         @if($client->is_active)
                                         <div class="flex items-center"><span class="mr-1 text-sm czgoy cw92y cqljy">-&gt;</span>
-                                            <span><a class="flex items-center rounded c626f csq8i cfnh0" href="#0">
+                                            <span><a class="flex items-center rounded c626f csq8i cfnh0" wire:click="setActive('{{ $client->id }}')">
                                             <svg class="w-3 h-3 clfqm c3wll c7n6y czt1n" viewBox="0 0 12 12">
                                                 <path d="M6 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2A6 6 0 1 1 6 0a6 6 0 0 1 0 12Z"></path>
                                             </svg>
                                             <span class="text-sm ch1ih c6w4h cw92y">Active</span>
                                         </a></span></div>
                                         @else
-                                        <a class="flex items-center rounded c626f csq8i cfnh0" href="#0">
+                                        <div class="flex items-center"><span class="mr-1 text-sm czgoy cw92y cqljy">-&gt;</span>
+                                        <a class="flex items-center rounded c626f csq8i cfnh0" wire:click="setActive('{{ $client->id }}')">
                                             <svg class="w-3 h-3 c6tg6 c3wll c7n6y czt1n" viewBox="0 0 12 12">
                                                 <path d="M6 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2A6 6 0 1 1 6 0a6 6 0 0 1 0 12Z"></path>
                                             </svg>
@@ -104,13 +102,13 @@
                                 <div class="bg-white border rounded dark:bg-slate-800 border-slate-200 dark:border-slate-700 creyy ct1ew cetne csmh2 c8gb2 cjxbp cke32 c8407 cox8h c5xk8" @click.outside="open = false" @keydown.escape.window="open = false" x-show="open" x-transition:enter="c5mjj coq4n ch8aq ccio3" x-transition:enter-start="opacity-0 c3pue" x-transition:enter-end="cqsra cfwq4" x-transition:leave="c5mjj coq4n ch8aq" x-transition:leave-start="cqsra" x-transition:leave-end="opacity-0" x-cloak="">
                                     <ul>
                                         <li>
-                                            <a class="flex text-sm cn6r0 cnz6z ch1ih c6w4h cw92y cjm6w cynm4" href="#0" @click="open = false" @focus="open = true" @focusout="open = false">Option 1</a>
+                                            <a class="flex text-sm cn6r0 cnz6z ch1ih c6w4h cw92y cjm6w cynm4" href="{{ route('client-dashboard', ['clientId' => $client->id]) }}" wire:navigate @click="open = false" @focus="open = true" @focusout="open = false">View Client</a>
                                         </li>
                                         <li>
-                                            <a class="flex text-sm cn6r0 cnz6z ch1ih c6w4h cw92y cjm6w cynm4" href="#0" @click="open = false" @focus="open = true" @focusout="open = false">Option 2</a>
+                                            <a class="flex text-sm cn6r0 cnz6z ch1ih c6w4h cw92y cjm6w cynm4" href="#0" @click="open = false" @focus="open = true" @focusout="open = false">Edit Client</a>
                                         </li>
                                         <li>
-                                            <a class="flex text-sm cvu65 c6tg6 cw92y cjm6w cynm4" href="#0" @click="open = false" @focus="open = true" @focusout="open = false">Remove</a>
+                                            <a class="flex text-sm cvu65 c6tg6 cw92y cjm6w cynm4" href="#0" @click="open = false" @focus="open = true" @focusout="open = false" wire:click="deleteClient('{{$client->id}}')">Remove Client</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -222,6 +220,17 @@
 
             <!-- Right: Actions -->
             <div class="cnt8v cexh7 cuh4n cy6ju ck4mf c5va1">
+                <form class="c4ijw">
+                    <label for="action-search" class="cbl3h">Search</label>
+                    <x-input class="bg-white dark:bg-slate-800 c03gb ctmd2" type="search" placeholder="Search…" wire:model="search"></x-input>
+                    <button class="cozyg csmh2 c1u8w c2djl" type="submit" aria-label="Search">
+                        <svg class="ml-3 mr-2 c1bvt cc44c ciz4v czgoy c3wll c7n6y cgmrc cm474" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"></path>
+                            <path d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z"></path>
+                        </svg>
+                    </button>
+                </form>
+
 
                 <!-- Add member button -->
                 <button class="btn cfeqx cf1ce ceqwg" @click="open = true">
@@ -253,6 +262,7 @@
         aria-labelledby="slide-over-title"
         role="dialog"
         aria-modal="true"
+        x-cloak
     >
         <div class="absolute inset-0 overflow-hidden ">
             <!-- Background overlay -->
@@ -344,7 +354,7 @@
                                     <div class="cy6kd">
                                         <label class="block text-sm cw92y ci4cg" for="city">Phone <span class="c6tg6">*</span></label>
                                         <x-input class="w-full px-4 py-2 rounded-md border-slate-400 c03gb c3ff8" type="text" wire:model='phone'></x-input>
-                                        @error('phon') <span class="error">{{ $message }}</span> @enderror
+                                        @error('phone') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="cy6kd">
                                         <label class="block text-sm cw92y ci4cg" for="city">Email <span class="c6tg6">*</span></label>

@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Client;
 
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use Illuminate\Support\Str;
 
 #[Layout('layouts.app', ['title' => 'Client Dashboard'])]
@@ -25,6 +27,10 @@ class ClientIndex extends Component
     public $zip;
     public $type;
 
+    #[Url]
+    public $search = '';
+
+
     // fillable
 
 
@@ -33,13 +39,21 @@ class ClientIndex extends Component
     }
     public function render()
     {
-        $clients = Auth::user()->account->clients()->paginate(12);
+        //$clients = Auth::user()->account->clients()->paginate(12);
+        $query = Auth::user()->account->clients();
+
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $clients = $query->paginate(12);
         return view('livewire.client.client-index', [
             'clients'=> $clients
         ]);
     }
-
-
 
     public function validateData(){
         //dd($this->first_name, $this->last_name, $this->phone, $this->email, $this->address, $this->city, $this->state, $this->zip, $this->type);
@@ -84,9 +98,20 @@ class ClientIndex extends Component
             if ($newUser) {
                 $newClient->contact_one_id = $newUser->id;
                 $newClient->save();
-                session()->flash('message', 'Client Successfully Added.');
                 $this->reset(['first_name', 'last_name', 'phone', 'email', 'address', 'city', 'state', 'zip', 'type']);
                 $this->resetErrorBag();
+                $this->render();
+                $this->dispatch('close-slideover');
+                $this->dispatch('alert',
+                        ['type' => 'success',
+                        'title' => 'Success!',
+                        'position' => 'center',
+                        'timer' => 3000,
+                        'confirmationButton' => false,
+                        'message' =>
+                        'Client Added Successfully']
+                );
+
 
             } else {
                 // user creation failure
@@ -97,6 +122,35 @@ class ClientIndex extends Component
             // display an error message or redirect the user back to the registration page
         }
     }
+
+    public function deleteClient($id){
+        $client = Client::find($id);
+        if ($client) {
+            $client->delete();
+            $this->dispatch('alert',
+                ['type' => 'success',
+                'title' => 'Success!',
+                'position' => 'center',
+                'timer' => 3000,
+                'confirmationButton' => false,
+                'message' =>
+                'Client Deleted Successfully']
+        );
+            //session()->flash('success', 'Client Successfully Deleted.');
+            $this->render();
+        }
+    }
+
+    public function setActive($id){
+        $client = Client::find($id);
+        if ($client) {
+            $client->is_active = !$client->is_active;
+            $client->save();
+
+        $this->render();
+        }
+    }
+
 
 
 }
