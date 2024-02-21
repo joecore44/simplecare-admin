@@ -19,7 +19,7 @@
                         <div>
                             <div class="text-slate-800 dark:text-slate-100 cw92y">Chart Note</div>
                             <div class="flex items-center c626f cmaja cwkb0">
-                                <div>Quick Note</div>
+
                                 <div>{{ $note->note }}</div>
                                 <div class="cdfsn czgoy">·</div>
                                 <div>{{ $note['date'] }} - {{ $note['time'] }}</div>
