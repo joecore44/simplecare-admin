@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_availabilities', function (Blueprint $table) {
+        Schema::create('provider_service', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('provider_id');
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_availabilities');
+        Schema::dropIfExists('provider_service');
     }
 };

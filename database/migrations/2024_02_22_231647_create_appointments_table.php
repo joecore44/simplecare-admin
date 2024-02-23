@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_availabilities', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('provider_id');
+        Schema::create('appointments', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('token');
+
+            $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_availabilities');
+        Schema::dropIfExists('appointments');
     }
 };

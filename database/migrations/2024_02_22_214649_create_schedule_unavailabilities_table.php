@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_availabilities', function (Blueprint $table) {
+        Schema::create('schedule_unavailabilities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('provider_id');
-            $table->date('date');
+            $table->foreignId('provider_availabilities_id')->constrained()->onDelete('cascade');
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_availabilities');
+        Schema::dropIfExists('schedule_unavailabilities');
     }
 };

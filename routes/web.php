@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\DudaLoginController;
 use App\Livewire\Client\ClientIndex;
 use App\Livewire\Client\ClientCreate;
 use App\Livewire\Dashboard\AppointmentsCalendar;
+use App\Livewire\Dashboard\CreateAppointmentForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +47,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/marketing', Marketing::class)->name('marketing');
 
     // Calendar routes
-    Route::get('/appointments/calendar', AppointmentsCalendar::class)->name('appointments-calendar');
+    Route::get('/appointments/calendar', CreateAppointmentForm::class)->name('appointments-calendar');
+    //Route::get('/appointments/calendar', AppointmentController::class)->name('appointments-calendar');
+
     // Client routes
     Route::get('/clients', ClientIndex::class)->name('clients');
     Route::get('clients/new', ClientCreate::class)->name('create-client');

@@ -6,7 +6,6 @@
     @close-slideover.window="open = false"
 >
     <div class="cyqq9 cxbdy clk9r c958j">
-
         <!-- Left: Title -->
         <div class="clxmc c958j">
             <h1 class="font-bold text-slate-800 dark:text-slate-100 cy709 cjefr"><span x-text="`${monthNames[month]} ${year}`"></span> ✨</h1>
@@ -259,33 +258,88 @@
                                     </div>
                                     <div class="flex cwh9k">
                                         <div class="cy6kd">
-                                            <label class="block text-sm cw92y ci4cg" for="city">First Name <span class="c6tg6">*</span></label>
-                                            <x-input class="w-full px-4 py-2 rounded-md border-slate-700 c03gb c3ff8" type="text" wire:model='first_name'></x-input>
-                                            @error('first_name') <span class="error">{{ $message }}</span> @enderror
+                                            <label class="block text-sm cw92y ci4cg" for="city">Title </label>
+                                            <x-input class="w-full px-4 py-2 rounded-md border-slate-700 c03gb c3ff8" type="text" wire:model='title'></x-input>
+                                            @error('title') <span class="error">{{ $message }}</span> @enderror
                                         </div>
-                                        <div class="cy6kd">
-                                            <label class="block text-sm cw92y ci4cg" for="city">Last Name <span class="c6tg6">*</span></label>
-                                            <x-input class="w-full px-4 py-2 rounded-md border-slate-400 c03gb c3ff8" type="text" wire:model='last_name'></x-input>
-                                            @error('last_name') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
+
                                     </div>
                                     <div class="flex cwh9k">
                                         <div class="cy6kd">
-                                            <label class="block text-sm cw92y ci4cg" for="city">Phone <span class="c6tg6">*</span></label>
-                                            <x-input class="w-full px-4 py-2 rounded-md border-slate-400 c03gb c3ff8" type="text" wire:model='phone'></x-input>
-                                            @error('phone') <span class="error">{{ $message }}</span> @enderror
+                                            <label class="block text-sm cw92y ci4cg" for="city">From <span class="c6tg6">*</span></label>
+                                            <x-input type="date" class=" dark:bg-slate-800 text-slate-500 cn6r0 cxc4n ch1ih caowp cw92y c03gb ctmd2 flatpickr-input active" label="Date"></x-input>
+                                            @error('from') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                         <div class="cy6kd">
-                                            <label class="block text-sm cw92y ci4cg" for="city">Email <span class="c6tg6">*</span></label>
-                                            <x-input class="w-full px-4 py-2 rounded-md border-slate-400 c03gb c3ff8" type="text" wire:model='email'></x-input>
-                                            @error('email') <span class="error">{{ $message }}</span> @enderror
+                                            <label class="block text-sm cw92y ci4cg" for="city">To <span class="c6tg6">*</span></label>
+                                            <x-input type="time" class=" dark:bg-slate-800 text-slate-500 cn6r0 cxc4n ch1ih caowp cw92y c03gb ctmd2 flatpickr-input active" wire:model="time" />
+
+                                            @error('to') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <!-- Street Address -->
                                     <div>
                                         <label class="block text-sm cw92y ci4cg" for="street">Street Address <span class="c6tg6">*</span></label>
-                                        <x-input class="w-full px-4 py-2 rounded-md border-slate-400 c03gb c3ff8" type="text" wire:model='address'></x-input>
-                                        @error('address') <span class="error">{{ $message }}</span> @enderror
+                                        <div x-data="{ scheduleEnds: 'After' }" class="p-4 bg-white rounded-lg shadow-lg">
+                                            <!-- Row 1 -->
+                                            <div class="flex items-center space-x-2">
+                                                <!-- Col 1 -->
+                                                <div class="flex-1">
+                                                    <label>Every</label>
+                                                </div>
+                                                <!-- Col 2 -->
+                                                <div class="flex-1">
+                                                    <select class="border-gray-300 rounded">
+                                                        @for ($i = 1; $i <= 10; $i++)
+                                                            <option value="{{ $i }}">{{ $i }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                <!-- Col 3 -->
+                                                <div class="flex-1">
+                                                    <select class="border-gray-300 rounded">
+                                                        <option value="week">Week</option>
+                                                        <option value="month">Month</option>
+                                                        <option value="year">Year</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Row 2 -->
+                                            <div class="flex items-center mt-4 space-x-2">
+                                                <!-- Col 1 (Empty) -->
+                                                <div class="flex-1"></div>
+                                                <!-- Col 2 and 3 -->
+                                                <div class="flex-1 col-span-2">
+                                                    <label><input type="checkbox" name="days[]" value="Mon"> Mon</label>
+                                                    <label><input type="checkbox" name="days[]" value="Tue"> Tue</label>
+                                                    <!-- Add other days similarly -->
+                                                </div>
+                                            </div>
+
+                                            <!-- Row 3 -->
+                                            <div class="flex items-center mt-4 space-x-2">
+                                                <!-- Col 1 -->
+                                                <div class="flex-1">
+                                                    <label>Ends</label>
+                                                </div>
+                                                <!-- Col 2 -->
+                                                <div class="flex-1">
+                                                    <select class="border-gray-300 rounded" x-model="scheduleEnds">
+                                                        <option value="After">After</option>
+                                                        <option value="On Date">On Date</option>
+                                                        <option value="Never">Never</option>
+                                                    </select>
+                                                </div>
+                                                <!-- Col 3 (Empty) -->
+                                                <div class="flex-1"></div>
+                                            </div>
+
+                                            <!-- Conditional Row for "On Date" -->
+                                            <div class="mt-4" x-show="scheduleEnds === 'On Date'">
+                                                <input type="date" class="border-gray-300 rounded">
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- City and Postal Code -->
                                     <div class="flex cwh9k">

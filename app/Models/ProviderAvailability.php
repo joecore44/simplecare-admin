@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ScheduleUnavailability;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,11 +18,16 @@ class ProviderAvailability extends Model
     ];
 
     protected $casts = [
+        'date' => 'datetime',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
     ];
 
     public function provider(){
         return $this->belongsTo(User::class);
+    }
+
+    public function unavailabilities(){
+        return $this->hasMany(ScheduleUnavailability::class, 'provider_availabilities_id');
     }
 }
