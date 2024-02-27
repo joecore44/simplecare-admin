@@ -14,10 +14,17 @@ class AppointmentCalendarCard extends Component
 
     public $date;
 
+    public $time;
+
+
     public function mount()
     {
         $this->calendarStartDate = now();
         //$this->setDate(now()->timestamp);
+    }
+
+    public function updatedTimeProperty($time){
+        $this->emitUp('updated-booking-time', $time);
     }
 
     public function getAvailableTimeSlotsProperty()
@@ -54,7 +61,7 @@ class AppointmentCalendarCard extends Component
     public function setDate($timestamp)
     {
         $this->date = $timestamp;
-        //dd($this->availableTimeSlots);
+        // dd($this->availableTimeSlots);
 
     }
 

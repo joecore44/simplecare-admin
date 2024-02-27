@@ -20,9 +20,9 @@
                 @endforeach
             </select>
         </div>
-
         <div class="mb-6 {{ !$this->selectedProvider ? 'opacity-25' : '' }}">
             <label for="service" class="inline-block mb-2 font-bold text-gray-700">Select Appointment Time</label>
+
             <livewire:dashboard.appointment-calendar-card
             :service="$this->selectedService"
             :provider="$this->selectedProvider"
