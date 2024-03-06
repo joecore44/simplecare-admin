@@ -15,7 +15,12 @@ use App\Http\Controllers\DudaLoginController;
 use App\Livewire\Client\ClientIndex;
 use App\Livewire\Client\ClientCreate;
 use App\Livewire\Dashboard\AppointmentsCalendar;
-use App\Livewire\Dashboard\CreateAppointmentForm;
+use App\Livewire\Dashboard\AppointmentLobby;
+use App\Livewire\Dashboard\ShowAppointment;
+use App\Http\Controllers\ShopController;
+use App\Livewire\Settings\NoteTemplate;
+use App\Livewire\Settings\CreateFormTemplate;
+use App\Livewire\Settings\RenderFormTemplate;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,13 +52,24 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/marketing', Marketing::class)->name('marketing');
 
     // Calendar routes
-    Route::get('/appointments/calendar', CreateAppointmentForm::class)->name('appointments-calendar');
-    //Route::get('/appointments/calendar', AppointmentController::class)->name('appointments-calendar');
+    Route::get('/appointments/calendar', AppointmentsCalendar::class)->name('appointments-calendar');
+    Route::get('/appointment/{appointment:id}', ShowAppointment::class)->name('appointment-show');
+    Route::get('/appointment/lobby/{appointment:id}', AppointmentLobby::class)->name('appointment-lobby');
+
 
     // Client routes
     Route::get('/clients', ClientIndex::class)->name('clients');
     Route::get('clients/new', ClientCreate::class)->name('create-client');
     Route::get('/client/{clientId}/dashboard/', ClientDashboard::class)->name('client-dashboard');
+
+    // Settings routes
+    Route::get('/settings/notes-templates/', NoteTemplate::class)->name('notes-templates');
+    Route::get('/settings/notes-templates/new/{templateId?}', CreateFormTemplate::class)->name('notes-templates-create');
+    Route::get('/preview/form/{uuid}', RenderFormTemplate::class)->name('notes-templates-render');
+
+
+    // Shop Routes
+    Route::get('/shop', ShopController::class)->name('shop');
 
 
     Route::fallback(function() {

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -74,53 +75,56 @@ class ClientIndex extends Component
         $this->resetErrorBag();
         $this->validateData();
 
-        $newClient = Client::create([
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'address' => $this->address,
-            'city' => $this->city,
-            'state' => $this->state,
-            'zip' => $this->zip,
-            'type'=> $this->type,
-            'account_id' => Auth::user()->account->id,
-        ]);
-
-        if ($newClient) {
-            $newUser = User::create([
-                'name' => $this->first_name . ' ' . $this->last_name,
-                'email' => $this->email,
-                'password' => bcrypt(Str::random(10)),
-                'phone_number' => $this->phone,
-                'type' => 'client',
-
+        DB::transaction(function () {
+            $newClient = Client::create([
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'address' => $this->address,
+                'city' => $this->city,
+                'state' => $this->state,
+                'zip' => $this->zip,
+                'type'=> $this->type,
+                'contact_one' => 0,
+                'account_id' => Auth::user()->account->id,
             ]);
 
-            if ($newUser) {
-                $newClient->contact_one_id = $newUser->id;
-                $newClient->save();
-                $this->reset(['first_name', 'last_name', 'phone', 'email', 'address', 'city', 'state', 'zip', 'type']);
-                $this->resetErrorBag();
-                $this->render();
-                $this->dispatch('close-slideover');
-                $this->dispatch('alert',
-                        ['type' => 'success',
-                        'title' => 'Success!',
-                        'position' => 'center',
-                        'timer' => 3000,
-                        'confirmationButton' => false,
-                        'message' =>
-                        'Client Added Successfully']
-                );
+            if ($newClient) {
+                $newUser = User::create([
+                    'name' => $this->first_name . ' ' . $this->last_name,
+                    'email' => $this->email,
+                    'password' => bcrypt(Str::random(10)),
+                    'phone_number' => $this->phone,
+                    'role' => 'client',
+
+                ]);
+
+                if ($newUser) {
+                    $newClient->contact_one_id = $newUser->id;
+                    $newClient->save();
+                    $this->reset(['first_name', 'last_name', 'phone', 'email', 'address', 'city', 'state', 'zip', 'type']);
+                    $this->resetErrorBag();
+                    $this->render();
+                    $this->dispatch('close-slideover');
+                    $this->dispatch('alert',
+                            ['type' => 'success',
+                            'title' => 'Success!',
+                            'position' => 'center',
+                            'timer' => 3000,
+                            'confirmationButton' => false,
+                            'message' =>
+                            'Client Added Successfully']
+                    );
 
 
+                } else {
+                    // user creation failure
+                    // rollback the account creation or display an error message
+                }
             } else {
-                // user creation failure
-                // rollback the account creation or display an error message
+                // account creation failure
+                // display an error message or redirect the user back to the registration page
             }
-        } else {
-            // account creation failure
-            // display an error message or redirect the user back to the registration page
-        }
+        });
     }
 
     public function deleteClient($id){

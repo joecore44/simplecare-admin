@@ -18,6 +18,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        @stack('styles')
 
         <script>
             if (localStorage.getItem('dark-mode') === 'false' || !('dark-mode' in localStorage)) {

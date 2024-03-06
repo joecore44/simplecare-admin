@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sites', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('account_id')->nullable();
-            // $table->foreign('account_id')
-            //       ->references('id')
-            //       ->on('accounts')
-            //       ->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->uuid('account_id');
+            $table->foreign('account_id')
+                   ->references('id')
+                   ->on('accounts')
+                   ->onDelete('cascade');
             $table->boolean('is_published')->default(false);
             // Api information
             $table->string('login_email');

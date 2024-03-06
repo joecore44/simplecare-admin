@@ -13,10 +13,10 @@ class Appointment extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        // 'token',
-        // 'provider_id',
-        // 'service_id',
-        // 'client_id',
+        //'token',
+        'provider_id',
+        'service_id',
+        'client_id',
         'date',
         'start_time',
         'end_time',
@@ -41,8 +41,13 @@ class Appointment extends Model
         return $this->belongsTo(User::class, 'provider_id');
     }
 
-    public function client() {
-        return $this->belongsTo(User::class, 'client_id');
+    // public function client() {
+    //     return $this->belongsTo(User::class, 'client_id');
+    // }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
     public function service() {

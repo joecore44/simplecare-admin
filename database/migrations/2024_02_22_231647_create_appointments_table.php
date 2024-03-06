@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('token');
 
             $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
+
+            $table->uuid('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
 
             $table->date('date');

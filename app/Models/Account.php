@@ -71,4 +71,9 @@ class Account extends Model
         return $this->hasMany(Site::class);
     }
 
+    public function formTemplates()
+    {
+        return $this->hasMany(FormTemplate::class, 'account_id');
+    }
+
 }

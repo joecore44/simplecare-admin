@@ -23,8 +23,8 @@ class AppointmentCalendarCard extends Component
         //$this->setDate(now()->timestamp);
     }
 
-    public function updatedTimeProperty($time){
-        $this->emitUp('updated-booking-time', $time);
+    public function updatedTime($time){
+        $this->dispatch('slot-selected', $time);
     }
 
     public function getAvailableTimeSlotsProperty()

@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->uuid('account_id');
+            $table->foreign('account_id')
+                  ->references('id')
+                  ->on('accounts')
+                  ->onDelete('cascade');
             $table->boolean('is_active')->default(false);
             $table->boolean('is_onboarded')->default(false);
             $table->enum('type', ['adult', 'child', 'couple'])->default('adult');
