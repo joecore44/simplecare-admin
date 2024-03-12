@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/marketing', Marketing::class)->name('marketing');
 
     // Calendar routes
-    Route::get('/appointments/calendar', AppointmentsCalendar::class)->name('appointments-calendar');
+    Route::get('/appointments', AppointmentsCalendar::class)->name('appointments');
     Route::get('/appointment/{appointment:id}', ShowAppointment::class)->name('appointment-show');
     Route::get('/appointment/lobby/{appointment:id}', AppointmentLobby::class)->name('appointment-lobby');
 

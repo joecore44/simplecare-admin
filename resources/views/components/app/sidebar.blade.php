@@ -75,12 +75,12 @@
                     </li>
 
                     <!-- Calendar -->
-                    <li class="px-3 py-2 rounded-sm mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['calendar'])){{ 'bg-slate-900' }}@endif">
-                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['calendar'])){{ 'hover:text-slate-200' }}@endif" href="#0">
+                    <li class="px-3 py-2 rounded-sm mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['appointments'])){{ 'bg-slate-900' }}@endif">
+                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['appointments'])){{ 'hover:text-slate-200' }}@endif" href="{{ route('appointments') }}">
                             <div class="flex items-center">
                                 <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24">
-                                    <path class="fill-current @if(in_array(Request::segment(1), ['calendar'])){{ 'text-orange-500' }}@else{{ 'text-slate-600' }}@endif" d="M1 3h22v20H1z" />
-                                    <path class="fill-current @if(in_array(Request::segment(1), ['calendar'])){{ 'text-orange-300' }}@else{{ 'text-slate-400' }}@endif" d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z" />
+                                    <path class="fill-current @if(in_array(Request::segment(1), ['appointments'])){{ 'text-orange-500' }}@else{{ 'text-slate-600' }}@endif" d="M1 3h22v20H1z" />
+                                    <path class="fill-current @if(in_array(Request::segment(1), ['appointments'])){{ 'text-orange-300' }}@else{{ 'text-slate-400' }}@endif" d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z" />
                                 </svg>
                                 <span class="ml-3 text-sm font-medium duration-200 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">Appointments</span>
                             </div>
