@@ -21,6 +21,7 @@ use App\Http\Controllers\ShopController;
 use App\Livewire\Settings\NoteTemplate;
 use App\Livewire\Settings\CreateFormTemplate;
 use App\Livewire\Settings\RenderFormTemplate;
+use App\Livewire\Pipeline\PipelineCreate;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/appointment/{appointment:id}', ShowAppointment::class)->name('appointment-show');
     Route::get('/appointment/lobby/{appointment:id}', AppointmentLobby::class)->name('appointment-lobby');
 
+    // Pipeloine routes
+    Route::get('/pipeline', PipelineCreate::class)->name('pipeline');
 
     // Client routes
     Route::get('/clients', ClientIndex::class)->name('clients');

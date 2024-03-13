@@ -34,6 +34,10 @@ class AppointmentsCalendar extends Component
     public $state = [];
     public $refreshKey = 0;
 
+    public $selectedAppointment = null;
+
+
+
     // End Create Appt Component Stuff
 
 
@@ -189,6 +193,7 @@ class AppointmentsCalendar extends Component
     {
         $appointments = Appointment::all();
 
+
         $this->appointments = $appointments->map(function ($appointment) {
             $specificDate = $appointment->date;
 
@@ -206,10 +211,25 @@ class AppointmentsCalendar extends Component
             return [
                 'eventStart' => $newStartDateTime->format('D M d Y H:i:s') . " GMT{$timezoneOffset} ({$timezoneName})",
                 'eventEnd' => $newEndDateTime->format('D M d Y H:i:s') . " GMT{$timezoneOffset} ({$timezoneName})",
+                'eventLongName' =>"⛱️ {$appointment->service->duration} Minute Appointment with {$appointment->provider->name} & {$appointment->client->first_name} {$appointment->client->last_name}",
                 'eventName' => "⛱️ ({$appointment->service->duration}) {$appointment->provider->name} - {$appointment->client->first_name} {$appointment->client->last_name}",
                 'eventColor' => 'indigo',
+                'eventStartUrl' => "/appointment/{$appointment->id}?token={$appointment->token}",
+                'appointmentId' => $appointment->id,
+                'serviceId' => $appointment->service_id,
+                'providerId' => $appointment->provider_id,
+                'clientId' => $appointment->client_id,
+
             ];
         })->toArray();
+    }
+
+    public function viewAppointment($appointment)
+    {
+
+        $this->selectedAppointment = Appointment::find($appointment);
+        $this->dispatch('open-modal', ['name' => 'appointment-details']);
+
     }
 
     public function refreshComponent()

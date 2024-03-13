@@ -1,4 +1,4 @@
-<div wire:poll>
+<div>
     <div
     x-data="{ open: false }"
     @open-slide-over.window="open = true"
@@ -98,7 +98,19 @@
             </div>
 
             <!-- Calendar table -->
-            <div class="bg-white rounded-sm dark:bg-slate-800 ct1ew cse7i" x-cloak="">
+            <div
+            class="bg-white rounded-sm dark:bg-slate-800 ct1ew cse7i"
+            x-cloak=""
+            x-data="{
+                modalOpen: false,
+                modalEventData: {},
+                openModalWithEvent(eventData) {
+                    this.modalEventData = eventData;
+                    this.modalOpen = true;
+                }
+            }">
+
+
 
                 <!-- Days of the week -->
                 <div class="border-slate-200 dark:border-slate-700 c23rj cz4zt ck57v c5va1">
@@ -135,7 +147,8 @@
                                 <!-- Events -->
                                 <div class="flex ct1ew cg25h c4ijw chmlm cgk03 ckut6">
                                     <template x-for="event in getEvents(day)">
-                                        <button class="cojuf c4ijw c3ff8 ci4cg">
+
+                                        <button class="cojuf c4ijw c3ff8 ci4cg" wire:click="viewAppointment(event.appointmentId)">
                                             <div class="rounded ct1ew cxcbl ciamg" :class="{
                                                     'ceqwg ca1cm': event.eventColor === 'sky',
                                                     'ceqwg cf1ce': event.eventColor === 'indigo',
@@ -186,10 +199,65 @@
                         </div>
                     </template>
                 </div>
-            </div>
+                <div class="bg-slate-900 co20q c5o35 c1u8w citi2 cqfmf" x-show="modalOpen" x-transition:enter="c5mjj coq4n ch8aq" x-transition:enter-start="opacity-0" x-transition:enter-end="cqsra" x-transition:leave="c5mjj coq4n c4al0" x-transition:leave-start="cqsra" x-transition:leave-end="opacity-0" aria-hidden="true" x-cloak=""></div>
+                                            <!-- Modal dialog -->
+                                            <div id="plan-modal" class="flex items-center justify-center ct1ew clpyc c1u8w citi2 cqfmf crf5v c9r0z" role="dialog" aria-modal="true" x-show="modalOpen" x-transition:enter="c5mjj cgpmj ch8aq" x-transition:enter-start="opacity-0 c8f6f" x-transition:enter-end="cqsra cfwq4" x-transition:leave="c5mjj cgpmj ch8aq" x-transition:leave-start="cqsra cfwq4" x-transition:leave-end="opacity-0 c8f6f" x-cloak="">
+                                                <div class="bg-white rounded dark:bg-slate-800 cn60w craqh cetne c0nbw c3ff8" @click.outside="modalOpen = false" @keydown.escape.window="modalOpen = false">
+                                                    <!-- Modal header -->
+                                                    <div class="border-slate-200 dark:border-slate-700 cz4zt cx95x c8o14">
+                                                        <div class="flex items-center cmgwo">
+                                                            <div class="text-slate-800 dark:text-slate-100 cqosy" x-text="modalEventData.eventName"></div>
+                                                            <button class="coyl7 cljes ciz4v czgoy" @click="modalOpen = false">
+                                                                <div class="cbl3h">Close</div>
+                                                                <svg class="c3wll cgmrc cm474">
+                                                                    <path d="M7.95 6.536l4.242-4.243a1 1 0 111.415 1.414L9.364 7.95l4.243 4.242a1 1 0 11-1.415 1.415L7.95 9.364l-4.243 4.243a1 1 0 01-1.414-1.415L6.536 7.95 2.293 3.707a1 1 0 011.414-1.414L7.95 6.536z"></path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal content -->
+                                                    <div class="cx95x clrum c1178">
+                                                        <div class="text-sm">
+                                                            <div class="c958j">Change Appointment Time</div>
+                                                            <!-- Options -->
+                                                            <div class="mb-6">
 
+                                                                <livewire:dashboard.appointment-calendar-card
+                                                                :service="$this->selectedService"
+                                                                :provider="$this->selectedProvider"
+                                                                :key="optional($this->selectedProvider)->id"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="cx95x ctysv">
+                                                        <div class="flex flex-wrap justify-end cwkb0">
+                                                            <button class="border-slate-200 dark:border-slate-700 c46uo cm7vt ch1ih c6w4h cjusy" @click="modalOpen = false">Close</button>
+                                                            <button class="cfeqx cf1ce ceqwg cjusy">Update Appointment</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+            </div>
         </div>
     </main>
+    <x-dashboard.modal-center title="Hello World" name="appointment-details">
+        <x-slot:body>
+            <div class="text-sm">
+                <div class="c958j">Change Appointment Time</div>
+                <!-- Options -->
+                <div class="mb-6">
+                    @if ($this->selectedAppointment !== null)
+                        <livewire:dashboard.appointment-calendar-card
+                        :service="$this->selectedAppointment->service_id"
+                        :provider="$this->selectedAppointment->provider_id"
+                        :key="optional($this->selectedAppointment->provider_id)"/>
+                    @endif
+                </div>
+            </div>
+        </x-slot>
+    </x-modal-center>
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('calendar', () => ({
@@ -202,159 +270,18 @@
                 dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 events:
                     @php echo json_encode($appointments) @endphp
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 8, 3),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 8, 7),
-                    //     eventName: '⛱️ Relax for 2 at Marienbad',
-                    //     eventColor: 'indigo'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 12, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 12, 11),
-                    //     eventName: 'Team Catch-up',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 18, 2),
-                    //     eventEnd: '',
-                    //     eventName: '✍️ New Project (2)',
-                    //     eventColor: 'yellow'
-                    // },
-                    // // Current month
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 11),
-                    //     eventName: 'Meeting w/ Patrick Lin',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 19),
-                    //     eventEnd: '',
-                    //     eventName: 'Reservation at La Ginestre',
-                    //     eventColor: 'indigo'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 3, 9),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 3, 10),
-                    //     eventName: '✍️ New Project',
-                    //     eventColor: 'yellow'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 7, 21),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 7, 22),
-                    //     eventName: '⚽ 2021 - Semi-final',
-                    //     eventColor: 'red'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 11),
-                    //     eventName: 'Meeting w/Carolyn',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 13),
-                    //     eventEnd: '',
-                    //     eventName: 'Pick up Marta at school',
-                    //     eventColor: 'emerald'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 14),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 15),
-                    //     eventName: 'Meeting w/ Patrick Lin',
-                    //     eventColor: 'emerald'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 19),
-                    //     eventEnd: '',
-                    //     eventName: 'Reservation at La Ginestre',
-                    //     eventColor: 'indigo'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 11),
-                    //     eventName: '⛱️ Relax for 2 at Marienbad',
-                    //     eventColor: 'indigo'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 19),
-                    //     eventEnd: '',
-                    //     eventName: '⚽ 2021 - Semi-final',
-                    //     eventColor: 'red'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 11),
-                    //     eventName: 'Team Catch-up',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 2),
-                    //     eventEnd: '',
-                    //     eventName: 'Pick up Marta at school',
-                    //     eventColor: 'emerald'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 3),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 7),
-                    //     eventName: '✍️ New Project (2)',
-                    //     eventColor: 'yellow'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 11),
-                    //     eventName: 'Team Catch-up',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 19),
-                    //     eventEnd: '',
-                    //     eventName: '⚽ 2021 - Semi-final',
-                    //     eventColor: 'red'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 23, 0),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 23, 23),
-                    //     eventName: 'You stay at Meridiana B&B',
-                    //     eventColor: 'indigo'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 25, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 25, 11),
-                    //     eventName: 'Meeting w/ Kylie Joh',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 29, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 29, 11),
-                    //     eventName: 'Call Request ->',
-                    //     eventColor: 'sky'
-                    // },
-                    // // Next month
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 2, 3),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 2, 7),
-                    //     eventName: '✍️ New Project (2)',
-                    //     eventColor: 'yellow'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 14, 10),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 11),
-                    //     eventName: 'Team Catch-up',
-                    //     eventColor: 'sky'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 25, 2),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 25, 3),
-                    //     eventName: 'Pick up Marta at school',
-                    //     eventColor: 'emerald'
-                    // },
-                    // {
-                    //     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 27, 21),
-                    //     eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 27, 22),
-                    //     eventName: '⚽ 2021 - Semi-final',
-                    //     eventColor: 'red'
-                    // },
+
                 ,
+                setModalData(event) {
+                    console.log("Received event:", event); // Debug line
+                    this.modalEventData = event;
+                    this.modalOpen = true;
+                },
+
+
+                formatDate(date) {
+                    return date.toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                },
 
                 initCalendar() {
                     const today = new Date();
@@ -521,4 +448,8 @@
      </div>
  </div>
 </div>
+
+</div>
+
+
 </div>

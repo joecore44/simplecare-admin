@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('client_id');
             $table->foreign('client_id')
                   ->references('id')
-                  ->on('clientss')
+                  ->on('clients')
                   ->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->text('note');
