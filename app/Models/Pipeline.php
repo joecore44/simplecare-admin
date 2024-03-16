@@ -15,8 +15,8 @@ class Pipeline extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function questions()
+    public function steps()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(PipelineStep::class);
     }
 }

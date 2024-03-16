@@ -11,16 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('pipeline_steps', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('pipeline_id');
             $table->foreign('pipeline_id')
                    ->references('id')
                    ->on('pipelines')
                    ->onDelete('cascade');
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->foreignId('next_question_id')->nullable()->constrained('questions')->onDelete('set null');
+            $table->integer('order');
+            $table->string('name');
+            $table->string('description');
+            $table->uuid('next_step_id')->nullable();
+            $table->foreign('next_step_id')
+                   ->references('id')
+                   ->on('pipeline_steps')
+                   ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -30,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('pipeline_steps');
     }
 };

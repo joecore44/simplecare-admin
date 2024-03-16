@@ -1,4 +1,5 @@
 <div class="grid grid-cols-4 gap-4" id="room__container">
+
     <main class="col-span-4 ckut6">
         <div class="flex c4ijw crszu">
             <div class="col-span-6 pt-5 cwis9 cqyxl cbr9x cgpmj chmlm ckut6">
@@ -7,55 +8,11 @@
                     <div class="w-1/4 px-4 py-2 mb-3 text-sm text-center text-white bg-orange-500 rounded">
                         {{ $pipeline['name'] }}
                     </div>
-                    <div class="w-px h-4 bg-gray-500"></div>
-                    @foreach($pipeline['questions'] as $index => $question)
-                        <!-- Connection Line Above (except for the first item) -->
-                        @if($index > 0)
-                        <div class="w-px h-4 bg-gray-500"></div>
-                        @endif
 
-                        <!-- Question Rectangle -->
-                        <div class="w-1/4 px-4 py-2 text-sm text-center text-white bg-orange-500 rounded">
-                            {{ $question['text'] }}
-                        </div>
+                  <!-- Flowchart Container -->
 
-                        <!-- Connection Line Below Question -->
-                        <div class="w-px h-4 bg-gray-500"></div>
 
-                        <!-- Answers Section -->
-                        <div class="flex flex-wrap justify-center gap-2 mt-2">
-                            @foreach($question['answers'] as $answer)
-                                <div class="flex flex-col items-center">
-                                    <!-- Answer Button -->
-                                    <button class="w-32 h-32 p-2 mb-1 text-xs text-center text-white bg-gray-500 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-                                        {{ $answer['text'] }}
-                                    </button>
-                                    <!-- Connection Line Below Answer -->
-                                    <div class="w-px h-4 bg-gray-500"></div>
-                                    <!-- Circular Action Indicator -->
-                                    <div class="flex items-center justify-center w-8 h-8 mb-2 text-xs text-white bg-gray-500 rounded-full">
-                                        @if(isset($answer['action']['type']))
-                                            @switch($answer['action']['type'])
-                                                @case('move_to_next_question')
-                                                    &rarr;
-                                                    @break
-                                                @case('exit_pipeline')
-                                                    &times;
-                                                    @break
-                                                @case('redirect_to_question')
-                                                    &#63;
-                                                    @break
-                                                @case('redirect_to_page')
-                                                    &#10148;
-                                                    @break
-                                            @endswitch
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
+
 
 
 

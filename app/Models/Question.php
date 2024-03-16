@@ -10,9 +10,9 @@ class Question extends Model
 {
     use HasFactory, HasUuids;
 
-    public function pipeline()
+    public function step()
     {
-        return $this->belongsTo(Pipeline::class);
+        return $this->belongsTo(PipelineStep::class);
     }
     public function answers()
     {

@@ -18,6 +18,7 @@ use App\Livewire\Dashboard\AppointmentsCalendar;
 use App\Livewire\Dashboard\AppointmentLobby;
 use App\Livewire\Dashboard\ShowAppointment;
 use App\Http\Controllers\ShopController;
+use App\Livewire\Front\ProductOnboarding;
 use App\Livewire\Settings\NoteTemplate;
 use App\Livewire\Settings\CreateFormTemplate;
 use App\Livewire\Settings\RenderFormTemplate;
@@ -40,6 +41,8 @@ Route::get('/onboarding/2', StepTwo::class)->name('step-two');
 Route::get('/onboarding/3', StepThree::class)->name('step-three');
 Route::get('/onboarding/4', StepFour::class)->name('step-four');
 
+Route::get('/meet-your-clinician/{product}/{step?}', ProductOnboarding::class)->name('meet-your-clinician');
+
 
 //Route::redirect('/login', 'login');
 Route::get('/duda-login', [DudaLoginController::class, 'login'])->name('duda-login');
@@ -58,7 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/appointment/lobby/{appointment:id}', AppointmentLobby::class)->name('appointment-lobby');
 
     // Pipeloine routes
-    Route::get('/pipeline', PipelineCreate::class)->name('pipeline');
+    Route::get('/pipeline/{pipelineId}', PipelineCreate::class)->name('pipeline');
 
     // Client routes
     Route::get('/clients', ClientIndex::class)->name('clients');
