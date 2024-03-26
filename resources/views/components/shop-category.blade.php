@@ -1,7 +1,7 @@
-<div class="ml-2">
-    {{ $category->title }}
+<div class="ml-4">
+    <a href="/categories/{{ $category->slug }}" class="{{ $category->depth === 0 ? 'font-bold' : '' }}">{{ $category->title }}</a>
 
-    @foreach($category->children as $child)
+    @foreach ($category->children as $child)
         <x-shop-category :category="$child" />
     @endforeach
 </div>

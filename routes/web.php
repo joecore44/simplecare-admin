@@ -12,6 +12,7 @@ use App\Livewire\Front\StepFour;
 use App\Livewire\Dashboard\Marketing;
 use App\Livewire\Client\ClientDashboard;
 use App\Http\Controllers\DudaLoginController;
+use App\Http\Controllers\ProductShowController;
 use App\Livewire\Client\ClientIndex;
 use App\Livewire\Client\ClientCreate;
 use App\Livewire\Dashboard\AppointmentsCalendar;
@@ -76,6 +77,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Shop Routes
     Route::get('/shop', ShopController::class)->name('shop');
+    Route::get('/shop/{product:slug}', ProductShowController::class)->name('shop-product');
 
 
     Route::fallback(function() {
